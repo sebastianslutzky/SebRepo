@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AE97C8F8-028B-441D-9F3A-5CAA3C46212D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EndpointMockingForServiceTests</RootNamespace>
+    <AssemblyName>EndpointMockingForServiceTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\..\..\..\..\v3\lib\Autofac\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\..\..\..\v3\lib\Castle\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2">
+      <HintPath>..\..\..\..\..\..\v3\lib\Castle\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\..\..\..\..\..\v3\lib\Common.Logging\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net">
+      <HintPath>..\..\..\..\..\..\v3\lib\Common.Logging\Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\..\..\..\..\..\v3\lib\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceBus, Version=2.5.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL" />
+    <Reference Include="NServiceBus.ObjectBuilder.Autofac2">
+      <HintPath>..\..\..\..\..\..\v3\lib\NServiceBus\NServiceBus.ObjectBuilder.Autofac2.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\V3split\ops\lib\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Wonga.Common.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\v3\build\Wonga.Common.Data\Wonga.Common.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Common.Data.Access, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\v3\deploy\Wonga.Salesforce.Handlers\Wonga.Common.Data.Access.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Comms.ContactManagement.Data.Access">
+      <HintPath>..\..\..\..\..\..\v3\deploy\Wonga.Salesforce.Handlers\Wonga.Comms.ContactManagement.Data.Access.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Comms.Data.Access">
+      <HintPath>..\..\..\..\..\..\v3\deploy\Wonga.Salesforce.Handlers\Wonga.Comms.Data.Access.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Ops.Configuration.Logging">
+      <HintPath>..\..\..\..\..\..\V3split\output\Wonga.Ops.Configuration.Logging\Wonga.Ops.Configuration.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Ops.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\v3\build\Wonga.Ops.Data\Wonga.Ops.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Ops.Data.Access">
+      <HintPath>..\..\..\..\..\..\v3\build\Wonga.Ops.Data.Access\Wonga.Ops.Data.Access.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Payments.Data.Access">
+      <HintPath>..\..\..\..\..\..\v3\deploy\Wonga.Salesforce.Handlers\Wonga.Payments.Data.Access.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.QA.Framework.Core">
+      <HintPath>..\..\..\..\..\..\v3QA\bin\Wonga.QA.Framework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Risk.Data.Access">
+      <HintPath>..\..\..\..\..\..\v3\deploy\Wonga.Salesforce.Handlers\Wonga.Risk.Data.Access.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Risk.PublicMessages">
+      <HintPath>..\..\..\..\..\..\v3\deploy\Wonga.Salesforce.Handlers\Wonga.Risk.PublicMessages.dll</HintPath>
+    </Reference>
+    <Reference Include="Wonga.Salesforce.Data.Access">
+      <HintPath>..\..\..\..\..\..\v3\deploy\Wonga.Salesforce.Handlers\Wonga.Salesforce.Data.Access.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="etc\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplyingTests.cs" />
+    <Compile Include="SensingTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GenericEndpoint\GenericEndpoint.csproj">
+      <Project>{A3D575B6-2DCB-4AAD-BCBD-36EA4FE72D72}</Project>
+      <Name>GenericEndpoint</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
