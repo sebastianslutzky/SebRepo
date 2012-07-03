@@ -57,6 +57,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,11 +78,15 @@
     <Reference Include="Wonga.Ops.SelfTest">
       <HintPath>..\..\..\..\..\..\v3\build\Wonga.Ops.Configuration.Bus\Wonga.Ops.SelfTest.dll</HintPath>
     </Reference>
+    <Reference Include="Wonga.Risk.PublicMessages">
+      <HintPath>..\..\..\..\..\..\V3split\output\Wonga.Risk.PublicMessages\Wonga.Risk.PublicMessages.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EndPoint.cs" />
     <Compile Include="EndpointConfigurator.cs" />
     <Compile Include="GenericHandler.cs" />
+    <Compile Include="MySerializer.cs" />
     <Compile Include="OnTheFlyHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
