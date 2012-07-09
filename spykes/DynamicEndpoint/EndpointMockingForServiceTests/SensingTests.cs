@@ -3,7 +3,8 @@ using GenericEndpoint;
 using NServiceBus;
 using NUnit.Framework;
 using Wonga.QA.Framework.Core;
-using Wonga.Risk.Business;
+using Wonga.QA.Framework.Msmq.Messages.Risk.Business;
+
 
 namespace EndpointMockingForServiceTests
 {
@@ -31,7 +32,7 @@ namespace EndpointMockingForServiceTests
 		public void AMessageOfThisTypeIsSentToSalesforceTest()
 		{
 			var aMessageWasSentToSalesforce = false;
-			_salesforce.AddHandler<IBusinessApplicationAccepted>(action: (x,bus) => aMessageWasSentToSalesforce = true);
+			_salesforce.AddHandler<IBusinessApplicationAcceptedEvent>(action: (x,bus) => aMessageWasSentToSalesforce = true);
 
 			Do.Until(() => aMessageWasSentToSalesforce);
 		}
@@ -43,10 +44,10 @@ namespace EndpointMockingForServiceTests
 			
 			var thisMessageWasSentToSalesforce = false;
 
-			_salesforce.AddHandler<IBusinessApplicationAccepted>(
-				filter: x => x.ApplicationId == appId,
-				action: (x,bus) => thisMessageWasSentToSalesforce = true);
-
+			_salesforce.AddHandler<IBusinessApplicationAcceptedEvent>(
+			    filter: x => x.ApplicationId == appId,
+			    action: (x,bus) => thisMessageWasSentToSalesforce = true);
+			
 			Do.Until(() => thisMessageWasSentToSalesforce);
 		}
 

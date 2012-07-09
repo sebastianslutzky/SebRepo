@@ -42,15 +42,6 @@
     <Reference Include="log4net">
       <HintPath>..\..\..\..\..\..\v3\lib\log4net\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus">
-      <HintPath>..\..\..\..\..\..\v3\lib\NServiceBus\NServiceBus.dll</HintPath>
-    </Reference>
-    <Reference Include="NServiceBus.Core">
-      <HintPath>..\..\..\..\..\..\v3\lib\NServiceBus\NServiceBus.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="NServiceBus.Host">
-      <HintPath>..\..\..\..\..\..\v3\build\Wonga.Ops.Configuration.HostEndpoint\NServiceBus.Host.exe</HintPath>
-    </Reference>
     <Reference Include="NServiceBus.ObjectBuilder.Autofac2">
       <HintPath>..\..\..\..\..\..\v3\lib\NServiceBus\NServiceBus.ObjectBuilder.Autofac2.dll</HintPath>
     </Reference>
@@ -78,6 +69,10 @@
     <Reference Include="Wonga.Ops.SelfTest">
       <HintPath>..\..\..\..\..\..\v3\build\Wonga.Ops.Configuration.Bus\Wonga.Ops.SelfTest.dll</HintPath>
     </Reference>
+    <Reference Include="Wonga.QA.Framework.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Wonga.QA.Framework.Msmq">
+      <HintPath>..\..\..\..\..\..\v3QA\bin\Wonga.QA.Framework.Msmq.dll</HintPath>
+    </Reference>
     <Reference Include="Wonga.Risk.PublicMessages">
       <HintPath>..\..\..\..\..\..\V3split\output\Wonga.Risk.PublicMessages\Wonga.Risk.PublicMessages.dll</HintPath>
     </Reference>
@@ -86,6 +81,7 @@
     <Compile Include="EndPoint.cs" />
     <Compile Include="EndpointConfigurator.cs" />
     <Compile Include="GenericHandler.cs" />
+    <Compile Include="MyMessageMapper.cs" />
     <Compile Include="MySerializer.cs" />
     <Compile Include="OnTheFlyHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

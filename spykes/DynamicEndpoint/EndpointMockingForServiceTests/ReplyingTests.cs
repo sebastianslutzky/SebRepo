@@ -2,7 +2,7 @@
 using GenericEndpoint;
 using NUnit.Framework;
 using Wonga.QA.Framework.Core;
-using Wonga.Risk.Business;
+using Wonga.QA.Framework.Msmq.Messages.Risk.Business;
 
 namespace EndpointMockingForServiceTests
 {
@@ -24,17 +24,17 @@ namespace EndpointMockingForServiceTests
 
 			var messageWasSentToRisk = false;
 
-			_salesforce.AddHandler<IBusinessApplicationAccepted>(
+			_salesforce.AddHandler<IBusinessApplicationAcceptedEvent>(
 				filter: x => x.ApplicationId == appId,
 				action: (x, bus) =>
-				        	{
-				        		messageWasSentToRisk = true;
+							{
+								messageWasSentToRisk = true;
 								// here is where we mock the external service
 								// in this case we send a message to Risk  but we can alsoe
 								//	* Bus.Publish (which will also test that our target service subscribes to an vent
 								//  * Bus.ReplyToOriginator() (twe could build this method, applicable for sagamessages
-				        		bus.Send<IBusinessApplicationDeclined>("riskservice",msg => msg.ApplicationId = appId);
-				        	});
+								bus.Send<IBusinessApplicationAcceptedEvent>("riskservice", msg => msg.ApplicationId = appId);
+							});
 
 			Do.Until(() => messageWasSentToRisk);
 		}

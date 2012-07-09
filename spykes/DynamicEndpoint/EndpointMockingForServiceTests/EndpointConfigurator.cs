@@ -4,21 +4,20 @@ using System.Transactions;
 using Common.Logging;
 using Autofac;
 using NServiceBus;
+using NServiceBus.Config;
 using NServiceBus.Config.ConfigurationSource;
 using NServiceBus.MessageInterfaces;
 using NServiceBus.ObjectBuilder;
 using NServiceBus.Serialization;
 using NServiceBus.Serializers.XML;
 using NServiceBus.Unicast.Transport;
-using Wonga.Ops.Configuration;
-using Wonga.Ops.Configuration.Bus;
-using Wonga.Risk.Business;
+
 
 namespace GenericEndpoint
 {
-	public class EndpointConfigurator: BaseEndpointConfig
+	public class EndpointConfigurator
 	{
-		private readonly ILog _log =  LogManager.GetCurrentClassLogger();
+		//private readonly ILog _log =  LogManager.GetCurrentClassLogger();
 
 		public void InitialiseEndpoint()
 		{
@@ -27,42 +26,32 @@ namespace GenericEndpoint
 		}
 
 
-		private void OpsBusConfiguration()
-		{
-			IContainer container = base.Init();
-			//now we autosubscribe, need it to rewrite for Sagas - because need to write Dummy Sagas handlers
-			var bus = BusConfigurator.ConfigureEndpointBus(container, isAutoSubscribe: false, runTests: false);
-			bus.CreateBus().Start();
-		}
-
 		private static void MyBusConfiguration()
 		{
 			var builder = new ContainerBuilder();
 
 
-			builder.RegisterType<NServiceBusConfigSource>().As<IConfigurationSource>().PropertiesAutowired().
+			builder.RegisterType<MyConfig>().As<IConfigurationSource>().PropertiesAutowired().
 				InstancePerLifetimeScope();
 			var container = builder.Build();
 
-			builder.RegisterType<MyMessageMapper>().As<IMessageMapper>().PropertiesAutowired().InstancePerLifetimeScope();
-			var anotherBuilder = new ContainerBuilder();
-			//anotherBuilder.RegisterModule<MySerializerModule>();
-			anotherBuilder.Update(container);
+			//builder.RegisterType<MyMessageMapper>().As<IMessageMapper>().PropertiesAutowired().InstancePerLifetimeScope();
+			//var anotherBuilder = new ContainerBuilder();
+			////anotherBuilder.RegisterModule<MySerializerModule>();
+			//anotherBuilder.Update(container);
 
-			var busConfigSource = container.Resolve<IConfigurationSource>() as NServiceBusConfigSource;
+			var busConfigSource = container.Resolve<IConfigurationSource>() as MyConfig;
 			
 
 			var bus = Configure.With(
 				typeof(IMessage).Assembly,
 				typeof(CompletionMessage).Assembly,
-				typeof(IBusinessApplicationAccepted).Assembly,
 				typeof(OnTheFlyHandler).Assembly,
 				typeof(Wonga.QA.Framework.Msmq.Messages.Risk.IRiskEvent).Assembly
 				);
-			bus.CustomConfigurationSource(busConfigSource);
-			bus.Autofac2Builder(container);
+
+			bus.Autofac2Builder(container).XmlSerializer();
 			//ConfigureSerializer(bus);
-			bus.XmlSerializer();
 			bus.MsmqTransport()
 				.IsTransactional(true)
 				.IsolationLevel(IsolationLevel.RepeatableRead)
@@ -75,22 +64,16 @@ namespace GenericEndpoint
 			var g = container.Resolve<IMessageSerializer>();
 			var origMapper = ((MessageSerializer) g).MessageMapper;
 			((MessageSerializer) g).MessageMapper = new MyMessageMapper() {Decorated = origMapper};
-			//        .LoadMessageHandlers()
-			//    .CreateBus()
-			//    .Start();
+			
 		}
+
+		private string EndpointName { get; set; }
+
 		public EndpointConfigurator(string endpointName)
 		{
 			EndpointName = endpointName;
-			ExecutingAssemblyPath = AppDomain.CurrentDomain.BaseDirectory;// Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", "");
 		}
 
-		protected override void RegisterOtherServices(Autofac.IContainer container)
-		{
-			//throw new NotImplementedException();
-		}
-
-		
 
 		private static Configure ConfigureSerializer(Configure config)
 		{
@@ -104,5 +87,41 @@ namespace GenericEndpoint
 			return config;
 		}
 		
+	}
+
+	public class MyConfig:IConfigurationSource
+	{
+		public T GetConfiguration<T>() where T : class
+		{
+			if (typeof(T) == typeof(MsmqTransportConfig))
+				return MsmqConfig() as T;
+
+			if (typeof(T) == typeof(UnicastBusConfig))
+				return UnicastBusConfiguration() as T;
+
+			
+				throw new NotImplementedException(typeof(T).ToString());
+		}
+
+		public string Endpoint { get; set; }
+
+		private MsmqTransportConfig MsmqConfig()
+		{
+			return new MsmqTransportConfig
+
+			{
+				ErrorQueue = Endpoint + "_error",
+				InputQueue = Endpoint,
+				MaxRetries = 5,
+				NumberOfWorkerThreads = 1
+
+			};
+		}
+
+		public UnicastBusConfig UnicastBusConfiguration()
+		{
+			return new UnicastBusConfig();
+
+		}
 	}
 }
