@@ -15,7 +15,7 @@ namespace EndpointMockingForServiceTests
 		[TestFixtureSetUp]
 		public void Setup()
 		{
-			_salesforce = new EndPoint("salesforce");
+            _salesforce = new EndPoint("salesforcecomponent");
 			_salesforce.Start();
 		}
 
@@ -50,6 +50,5 @@ namespace EndpointMockingForServiceTests
 			
 			Do.Until(() => thisMessageWasSentToSalesforce);
 		}
-
 	}
 }

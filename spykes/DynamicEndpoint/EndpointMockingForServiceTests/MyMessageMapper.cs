@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using EndpointMockingForServiceTests;
 using NServiceBus.MessageInterfaces;
 
 namespace GenericEndpoint
 {
-	public class MyMessageMapper:IMessageMapper{
-
-
+	public class MyMessageMapper:IMessageMapper
+    {
 		public IMessageMapper Decorated { get; set; }
 
 		public System.Type GetMappedTypeFor(string typeName)
 		{
+		    string pathToMsmqMessages = AssemblyDirectory + "\\Wonga.QA.Framework.Msmq.dll";
 
-            List<Type> messagesTypes = ReflectionHelper.GetIMessageTypes(@"C:\Users\lukasz.tyde@wonga.com\Desktop\dll_ref\Wonga.QA.Framework.Msmq.dll");
+            List<Type> messagesTypes = ReflectionHelper.GetIMessageTypes(pathToMsmqMessages);
 
 		    foreach (var messageTyp in messagesTypes)
 		    {
@@ -22,26 +24,22 @@ namespace GenericEndpoint
                     return messageTyp;
 		        }
 		    }
-            
-            //if (typeName.Contains("IBusinessApplicationAccepted"))
-            //{
-            //    var type = System.Type.GetType("Wonga.QA.Framework.Msmq.Messages.Risk.IApplicationDecisionEvent");
-            //    type = typeof(Wonga.QA.Framework.Msmq.Messages.Risk.Business.IBusinessApplicationAcceptedEvent);
-            //    return type;
-            //}
-				
-            //if (typeName.Contains("IRiskEvent"))
-            //{
-            //    var type = System.Type.GetType("Wonga.QA.Framework.Msmq.Messages.Risk.IRiskEvent");
-            //    type = typeof (Wonga.QA.Framework.Msmq.Messages.Risk.IRiskEvent);
-            //    return type;
-            //}
 
 			return Decorated.GetMappedTypeFor(typeName);
-			//return System.Type.GetType(typeName);
 		}
 
-		public System.Type GetMappedTypeFor(System.Type t)
+        static private string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
+
+	    public System.Type GetMappedTypeFor(System.Type t)
 		{
 			return Decorated.GetMappedTypeFor(t);
 		}
